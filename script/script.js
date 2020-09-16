@@ -54,7 +54,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     let idIn = setInterval(updateClock, 1000);
   }
-  countTimer('15 September 2020');
+  countTimer('17 September 2020');
 
   // menu
   const toggleMenu = () => {
@@ -68,6 +68,7 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     btnMenu.addEventListener('click', handlerMenu);
+
     closeBtn.addEventListener('click', handlerMenu);
     menuItems.forEach((elem) => elem.addEventListener('click', handlerMenu));
 
@@ -78,18 +79,61 @@ window.addEventListener('DOMContentLoaded', function () {
   const togglePopUp = () => {
     const popUp = document.querySelector('.popup');
     const popUpBtn = document.querySelectorAll('.popup-btn');
-    const popUpClose = document.querySelector('.popup-close');
 
     popUpBtn.forEach((elem => {
       elem.addEventListener('click', () => {
         popUp.style.display = 'block';
       });
     }));
-    popUpClose.addEventListener('click', () => {
-      popUp.style.display = 'none';
+
+    popUp.addEventListener('click', (event) => {
+      let target = event.target;
+      if (target.classList.contains('popup-close')) {
+        popUp.style.display = 'none';
+      } else {
+        target = target.closest('.popup-content');
+        if (!target) {
+          popUp.style.display = 'none';
+        }
+      }
     })
+
   }
   togglePopUp();
 
+  // Tabs
+  const tabs = () => {
+    const tabHeader = document.querySelector('.service-header');
+    const tab = tabHeader.querySelectorAll('.service-header-tab');
+    const tabContent = document.querySelectorAll('.service-tab');
+    console.log(tab);
+
+    const toggleTabContent = (index) => {
+      for (let i = 0; i < tabContent.length; i++) {
+        if (index === i) {
+          tab[i].classList.add('active');
+          tabContent[i].classList.remove('d-none');
+        } else {
+          tab[i].classList.remove('active');
+          tabContent[i].classList.add('d-none');
+        }
+      }
+    }
+
+    tabHeader.addEventListener('click', (event) => {
+      let target = event.target;
+      target = target.closest('.service-header-tab');
+
+
+      if (target) {
+        tab.forEach((item, i) => {
+          if (item === target) {
+            toggleTabContent(i);
+          }
+        });
+      }
+    });
+  }
+  tabs()
 
 });
