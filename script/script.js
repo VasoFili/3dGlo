@@ -3,17 +3,17 @@ window.addEventListener('DOMContentLoaded', function () {
 
   // Timer
   function countTimer(deadline) {
-    let timerHours = document.querySelector('#timer-hours');
-    let timerMinutes = document.querySelector('#timer-minutes');
-    let timerSecond = document.querySelector('#timer-seconds');
+    const timerHours = document.querySelector('#timer-hours'),
+      timerMinutes = document.querySelector('#timer-minutes'),
+      timerSecond = document.querySelector('#timer-seconds');
 
     function getTimeRemaining() {
-      let dateStop = new Date(deadline).getTime();
-      let dateNow = new Date().getTime();
-      let timeRemining = (dateStop - dateNow) / 1000;
-      let seconds = Math.floor(timeRemining % 60);
-      let minutes = Math.floor((timeRemining / 60) % 60);
-      let hours = Math.floor(timeRemining / 60 / 60);
+      const dateStop = new Date(deadline).getTime(),
+        dateNow = new Date().getTime(),
+        timeRemining = (dateStop - dateNow) / 1000,
+        seconds = Math.floor(timeRemining % 60),
+        minutes = Math.floor((timeRemining / 60) % 60),
+        hours = Math.floor(timeRemining / 60 / 60);
       return {
         timeRemining,
         hours,
@@ -23,38 +23,25 @@ window.addEventListener('DOMContentLoaded', function () {
     };
 
     function updateClock() {
-      let timer = getTimeRemaining();
 
-      if (timer.hours < 10) {
-        timerHours.textContent = '0' + timer.hours;
-      } else {
-        timerHours.textContent = timer.hours;
-      }
-      if (timer.minutes < 10) {
-        timerMinutes.textContent = '0' + timer.minutes;
-      } else {
-        timerMinutes.textContent = timer.minutes;
-      }
-      if (timer.seconds < 10) {
-        timerSecond.textContent = '0' + timer.seconds;
-      } else {
-        timerSecond.textContent = timer.seconds;
-      }
+      const timer = getTimeRemaining();
+
+      timerHours.textContent = addZero(timer.hours);
+      timerMinutes.textContent = addZero(timer.minutes);
+      timerSecond.textContent = addZero(timer.seconds);
+
 
       if (timer.timeRemining < 0) {
         clearInterval(idIn);
-      }
-
-      if (timer.timeRemining < 0) {
         timerHours.textContent = '00';
         timerMinutes.textContent = '00';
         timerSecond.textContent = '00';
       }
     }
-
-    let idIn = setInterval(updateClock, 1000);
+    const addZero = n => n < 10 ? '0' + n : n;
+    const idIn = setInterval(updateClock, 1000);
   }
 
-  countTimer('15 September 2020');
+  countTimer('17 September 2020');
 
 });
